@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <Button
+        android:id="@+id/app_usage_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="App Usage" />
+
+    <Button
+        android:id="@+id/call_log_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Call log" />
+
+    <Button
+        android:id="@+id/sms_log_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sms Log" />
+
+    <Button
+        android:id="@+id/accelerometer_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Accelerometer" />
+
+    <Button
+        android:id="@+id/batteryBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Battery Log" />
+
+    <Button
+        android:id="@+id/gpsBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GPS Log (in development)"
+        android:textColor="#2196F3" />
+
+
+    <Button
+        android:id="@+id/KeystrokeTrackingBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Keystroke Tracking (in development)"
+        android:textColor="#2196F3" />
+
+    <Button
+        android:id="@+id/browserBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Browser Log (is deprecated)"
+        android:textColor="#C62020" />
+</LinearLayout>
