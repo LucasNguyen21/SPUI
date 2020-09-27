@@ -1,17 +1,6 @@
 <resources>
-    <string name="app_name">FUNF_Test</string>
-    <string name="default_pipeline">
-        {"@type":"edu.mit.media.funf.pipeline.BasicPipeline",
-         "name":"default",
-         "version":1,
-         "data":[
-            "edu.mit.media.funf.probe.builtin.BatteryProbe",
-            "edu.mit.media.funf.probe.builtin.AccelerometerFeaturesProbe",
-            "edu.mit.media.funf.probe.builtin.SmsProbe",
-            "edu.mit.media.funf.probe.builtin.CallLogProbe"
-         ]
-        }
-    </string>
+    <string name="app_name">SPUI</string>
+
     <string name="open_app_usage_setting">Open Apps with usage access settings</string>
     <string name="last_time_used">"Last time used: "</string>
     <string name="time_span">"Time span: "</string>
@@ -21,6 +10,11 @@
     <string name="last_time_used_label">Last time used</string>
     <!-- label for usage time -->
     <string name="usage_time_label">Usage time</string>
+
+
+    <!--Tab View Fragment-->>
+    <string name="title_Test">Test</string>
+    <string name="title_DataCollection">Data Collection</string>
 
 
 </resources>
