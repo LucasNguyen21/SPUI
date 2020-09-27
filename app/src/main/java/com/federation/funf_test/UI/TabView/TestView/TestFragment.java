@@ -6,34 +6,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.federation.funf_test.AccelerometerActivity;
 import com.federation.funf_test.R;
+import com.federation.funf_test.gonogo.GoNogoTestActivity;
 
 public class TestFragment extends Fragment {
     private TestViewModel testViewModel;
+    Button gonogoBtn;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         testViewModel = ViewModelProviders.of(this).get(TestViewModel.class);
         View root = inflater.inflate(R.layout.fragment_test, container, false);
 
+        gonogoBtn = (Button) root.findViewById(R.id.gonogo_btn);
 
-
-
-        final TextView textView = root.findViewById(R.id.text_test);
-        testViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        gonogoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onClick(View v) {
+                Intent gonogoIntent = new Intent(getActivity(), GoNogoTestActivity.class);
+                startActivity(gonogoIntent);
             }
         });
+
         return root;
     }
 

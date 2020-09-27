@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <!-- Storage -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.READ_HISTORY_BOOKMARKS" />
@@ -45,7 +44,8 @@
         <activity android:name=".AccelerometerActivity"/>
         <activity android:name=".LocationActivity"/>
         <activity android:name=".BrowserActivity"/>
-
+        <activity android:name=".gonogo.GoNogoTestActivity"/>
+        <activity android:name=".gonogo.GoNogoInTestActivity"/>
 
         <receiver android:name="Broadcaster.BatteryBroadcaster">
             <intent-filter>
