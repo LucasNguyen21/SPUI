@@ -10,7 +10,7 @@
         android:id="@+id/gonogoInTest_btn"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:backgroundTint="#8BC34A"
+        android:background="#8BC34A"
         android:textSize="40dp"
         android:layout_centerInParent="true"
         android:text="Go" />

@@ -46,6 +46,7 @@
         <activity android:name=".BrowserActivity"/>
         <activity android:name=".gonogo.GoNogoTestActivity"/>
         <activity android:name=".gonogo.GoNogoInTestActivity"/>
+        <activity android:name=".gonogo.GoNogoResultActivity"/>
 
         <receiver android:name="Broadcaster.BatteryBroadcaster">
             <intent-filter>
