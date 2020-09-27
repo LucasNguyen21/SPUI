@@ -63,9 +63,10 @@
                 android:gravity="center"
                 android:layout_gravity="center_vertical|center_horizontal">
                 <Button
+                    android:id="@+id/stroop_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="None"
+                    android:text="Stroop Test"
                     android:textSize="10dp"
                     />
             </LinearLayout>
@@ -126,12 +127,6 @@
                     android:textSize="10dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-
-
-
-
-
     </GridLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

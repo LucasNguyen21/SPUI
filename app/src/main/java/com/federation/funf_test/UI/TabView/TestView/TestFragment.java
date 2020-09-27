@@ -15,10 +15,12 @@ import com.federation.funf_test.AccelerometerActivity;
 import com.federation.funf_test.KeystokeLogger.KeystrokeLoggerActivity;
 import com.federation.funf_test.R;
 import com.federation.funf_test.gonogo.GoNogoTestActivity;
+import com.federation.funf_test.stroop.StroopTestActivity;
 
 public class TestFragment extends Fragment {
     private TestViewModel testViewModel;
     Button gonogoBtn;
+    Button stroopBtn;
     Button keystrokeLoggerBtn;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -27,6 +29,7 @@ public class TestFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_test, container, false);
 
         gonogoBtn = (Button) root.findViewById(R.id.gonogo_btn);
+        stroopBtn = (Button) root.findViewById(R.id.stroop_btn);
         keystrokeLoggerBtn = (Button) root.findViewById(R.id.keystrokeLog_btn);
 
         gonogoBtn.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +37,14 @@ public class TestFragment extends Fragment {
             public void onClick(View v) {
                 Intent gonogoIntent = new Intent(getActivity(), GoNogoTestActivity.class);
                 startActivity(gonogoIntent);
+            }
+        });
+
+        stroopBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent stroopIntent = new Intent(getActivity(), StroopTestActivity.class);
+                startActivity(stroopIntent);
             }
         });
 

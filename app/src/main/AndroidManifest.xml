@@ -47,6 +47,9 @@
         <activity android:name=".gonogo.GoNogoTestActivity"/>
         <activity android:name=".gonogo.GoNogoInTestActivity"/>
         <activity android:name=".gonogo.GoNogoResultActivity"/>
+        <activity android:name=".stroop.StroopTestActivity"/>
+        <activity android:name=".stroop.StroopInTestActivity"/>
+        <activity android:name=".stroop.StroopResultActivity"/>
         <activity android:name=".KeystokeLogger.KeystrokeLoggerActivity"/>
 
         <receiver android:name="Broadcaster.BatteryBroadcaster">
