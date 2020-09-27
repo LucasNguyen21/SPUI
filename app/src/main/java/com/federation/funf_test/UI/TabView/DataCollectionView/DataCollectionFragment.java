@@ -89,13 +89,13 @@ public class DataCollectionFragment extends Fragment {
 
 
 
-        final TextView textView = root.findViewById(R.id.text_datacollection);
-        dataCollectionViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+//        final TextView textView = root.findViewById(R.id.text_datacollection);
+////        dataCollectionViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+////            @Override
+////            public void onChanged(@Nullable String s) {
+////                textView.setText(s);
+////            }
+////        });
         return root;
     }
 }
