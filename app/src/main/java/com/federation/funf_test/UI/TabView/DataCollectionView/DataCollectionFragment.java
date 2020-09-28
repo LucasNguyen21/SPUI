@@ -18,6 +18,7 @@ import com.federation.funf_test.AccelerometerActivity;
 import com.federation.funf_test.AppUsageActivity;
 import com.federation.funf_test.BatteryActivity;
 import com.federation.funf_test.CallLogActivity;
+import com.federation.funf_test.LocationActivity;
 import com.federation.funf_test.R;
 import com.federation.funf_test.SmsLogActivity;
 
@@ -84,6 +85,16 @@ public class DataCollectionFragment extends Fragment {
             public void onClick(View v) {
                 Intent appUsageIntent = new Intent(getActivity(), AccelerometerActivity.class);
                 startActivity(appUsageIntent);
+            }
+        });
+
+        gpsBtn = (Button) root.findViewById(R.id.gpsBtn);
+
+        gpsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent locationIntent = new Intent(getActivity(), LocationActivity.class);
+                startActivity(locationIntent);
             }
         });
 
