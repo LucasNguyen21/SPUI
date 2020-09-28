@@ -26,6 +26,7 @@ public class KeystrokeLoggerActivity extends Activity {
     private double endTime;
     private String textOutput = "";
     private int charCount = 0;
+    private int lastCount = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,25 +49,30 @@ public class KeystrokeLoggerActivity extends Activity {
             @Override
             public void onTextChanged(CharSequence string, int start,
                                       int before, int count) {
-                charCount++;
-
-                if (charCount > 1)
-                    startTime = System.currentTimeMillis();
-
-                String newResult = charCount + ". Key: (";
 
                 char lastChar = string.charAt(string.length() - 1);
 
-                if (lastChar == ' ') {
-                    newResult += "space";
-                } else {
-                    newResult += string.charAt(string.length() - 1);
-                }
-                newResult += ") | Duration: " + ((startTime - endTime)/1000) + " second\n";
-                textOutput = newResult + textOutput;
+                if (lastCount != count || lastChar == ' ') {
+                    charCount++;
 
-                if (string.length() > 0)
-                    answerText.setText(textOutput);
+                    if (charCount > 1)
+                        startTime = System.currentTimeMillis();
+
+                    String newResult = charCount + ". Key: (";
+
+                    if (lastChar == ' ') {
+                        lastCount = 0;
+                        newResult += "space";
+                    } else {
+                        lastCount = count;
+                        newResult += lastChar;
+                    }
+                    newResult += ") | Duration: " + ((startTime - endTime) / 1000) + " second\n";
+                    textOutput = newResult + textOutput;
+
+                    if (string.length() > 0)
+                        answerText.setText(textOutput);
+                }
             }
         });
     }
