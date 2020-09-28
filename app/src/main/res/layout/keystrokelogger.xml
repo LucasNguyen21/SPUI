@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/keystrokeLogger_EditText"
-        android:layout_width="wrap_content"
-        android:layout_height="266dp"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="textShortMessage|textLongMessage|textMultiLine"
-        android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." />
+    <TextView
+        android:id="@+id/question_text"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center|center_vertical"
+        android:text="Can you tell me your dream?"
+        android:textSize="18dp"
+        android:textAlignment="center" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/answer_input"
+        android:layout_width="match_parent"
+        android:layout_height="155dp"
+        android:background="#D8D8D8"
+        android:hint="Enter your answer"
+        android:padding="10dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/answer_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:text="Answer output"
+            android:textAlignment="center"
+            android:textSize="18dp" />
+    </ScrollView>
+
 </LinearLayout>
