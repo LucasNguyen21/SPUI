@@ -68,11 +68,7 @@ public class StroopInTestActivity extends Activity {
 
                 @Override
                 public void onFinish() {
-                    if(randomName == 1) {
-                        saveQuestion(currentCount, new Question(randomColor, randomName, 2, false));
-                    } else {
-                        saveQuestion(currentCount, new Question(randomColor, randomName, 2, true));
-                    }
+                    saveQuestion(currentCount, new Question(randomColor, randomName, 2, false));
 
                     currentCount++;
                     saveCount(currentCount);
@@ -89,8 +85,10 @@ public class StroopInTestActivity extends Activity {
                 public void onClick(View v) {
                     finishTime = System.currentTimeMillis();
 
-                    if (randomColor == 1) {
+                    if (randomColor == 0) {
                         saveQuestion(currentCount, new Question(randomColor, randomName, (finishTime-startTime)/1000, true));
+                    } else {
+                        saveQuestion(currentCount, new Question(randomColor, randomName, (finishTime-startTime)/1000, false));
                     }
 
                     startTime = System.currentTimeMillis();
@@ -110,8 +108,10 @@ public class StroopInTestActivity extends Activity {
                 public void onClick(View v) {
                     finishTime = System.currentTimeMillis();
 
-                    if (randomColor == 2) {
+                    if (randomColor == 1) {
                         saveQuestion(currentCount, new Question(randomColor, randomName, (finishTime-startTime)/1000, true));
+                    } else {
+                        saveQuestion(currentCount, new Question(randomColor, randomName, (finishTime-startTime)/1000, false));
                     }
 
                     startTime = System.currentTimeMillis();
@@ -131,8 +131,10 @@ public class StroopInTestActivity extends Activity {
                 public void onClick(View v) {
                     finishTime = System.currentTimeMillis();
 
-                    if (randomColor == 3) {
+                    if (randomColor == 2) {
                         saveQuestion(currentCount, new Question(randomColor, randomName, (finishTime-startTime)/1000, true));
+                    } else {
+                        saveQuestion(currentCount, new Question(randomColor, randomName, (finishTime-startTime)/1000, false));
                     }
 
                     startTime = System.currentTimeMillis();
@@ -152,8 +154,10 @@ public class StroopInTestActivity extends Activity {
                 public void onClick(View v) {
                     finishTime = System.currentTimeMillis();
 
-                    if (randomColor == 4) {
+                    if (randomColor == 3) {
                         saveQuestion(currentCount, new Question(randomColor, randomName, (finishTime-startTime)/1000, true));
+                    } else {
+                        saveQuestion(currentCount, new Question(randomColor, randomName, (finishTime-startTime)/1000, false));
                     }
 
                     startTime = System.currentTimeMillis();
@@ -188,23 +192,23 @@ public class StroopInTestActivity extends Activity {
 
     private void setQuestionStatus(Button button, int randomColor, int randomName){
         Log.d("randomStatus", "onClick: " + randomColor);
-        if (randomColor == 1) {
+        if (randomColor == 0) { //RED
             button.setTextColor(Color.parseColor("#F44336"));
-        } else if (randomColor == 2) {
+        } else if (randomColor == 1) { //YELLOW
             button.setTextColor(Color.parseColor("#FFC107"));
-        } else if (randomColor == 3) {
+        } else if (randomColor == 2) { //GREEN
             button.setTextColor(Color.parseColor("#4CAF50"));
-        } else {
+        } else if (randomColor == 3) { //BLUE
             button.setTextColor(Color.parseColor("#03A9F4"));
         }
 
-        if (randomName == 1) {
+        if (randomName == 0) {
             button.setText("RED");
-        } else if (randomName == 2) {
+        } else if (randomName == 1) {
             button.setText("YELLOW");
-        } else if (randomName == 3) {
+        } else if (randomName == 2) {
             button.setText("GREEN");
-        } else {
+        } else if (randomName == 3) {
             button.setText("BLUE");
         }
     }
@@ -224,6 +228,7 @@ public class StroopInTestActivity extends Activity {
 
     private void saveQuestion(int count, Question question){
         SharedPreferences.Editor editor = getSharedPreferences(setQuestionCountName(count), MODE_PRIVATE).edit();
+        editor.putInt("name", question.name);
         editor.putInt("color", question.color);
         editor.putFloat("ansTime", (float) question.ansTime);
         editor.putBoolean("result", question.result);

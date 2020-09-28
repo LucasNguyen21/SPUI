@@ -114,10 +114,6 @@ public class GoNogoInTestActivity extends Activity {
             toResultIntent.putExtra("result", questionList);
             startActivity(toResultIntent);
         }
-
-
-
-
     }
 
     @Override

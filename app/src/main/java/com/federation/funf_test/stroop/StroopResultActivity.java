@@ -37,23 +37,23 @@ public class StroopResultActivity extends Activity {
             String colorCon = "";
             String nameCon = "";
 
-            if (color == 1) {
+            if (color == 0) {
                 colorCon = "Red ";
-            } if (color == 2) {
+            } else if (color == 1) {
                 colorCon = "Yellow ";
-            } if (color == 3) {
+            } else if (color == 2) {
                 colorCon = "Green ";
-            } else {
+            } else if (color == 3) {
                 colorCon = "Blue ";
             }
 
-            if (name == 1) {
+            if (name == 0) {
                 nameCon = "Red ";
-            } if (name == 2) {
+            } else if (name == 1) {
                 nameCon = "Yellow ";
-            } if (name == 3) {
+            } else if (name == 2) {
                 nameCon = "Green ";
-            } else {
+            } else if (name == 3) {
                 nameCon = "Blue ";
             }
 
@@ -61,8 +61,9 @@ public class StroopResultActivity extends Activity {
             DecimalFormat df = new DecimalFormat("0.00");
             String ansTimeFormatted = df.format(ansTime);
 
+            boolean result = resultList.get(i).result;
             String resultCon = "";
-            if (colorCon == nameCon){
+            if (result == true){
                 resultCon = "Correct";
             } else {
                 resultCon = "Incorrect";
