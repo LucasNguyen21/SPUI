@@ -52,27 +52,25 @@ public class KeystrokeLoggerActivity extends Activity {
 
                 char lastChar = string.charAt(string.length() - 1);
 
-                if (lastCount != count || lastChar == ' ') {
-                    charCount++;
+                charCount++;
 
-                    if (charCount > 1)
-                        startTime = System.currentTimeMillis();
+                if (charCount > 1)
+                    startTime = System.currentTimeMillis();
 
-                    String newResult = charCount + ". Key: (";
+                String newResult = charCount + ". Key: (";
 
-                    if (lastChar == ' ') {
-                        lastCount = 0;
-                        newResult += "space";
-                    } else {
-                        lastCount = count;
-                        newResult += lastChar;
-                    }
-                    newResult += ") | Duration: " + ((startTime - endTime) / 1000) + " second\n";
-                    textOutput = newResult + textOutput;
-
-                    if (string.length() > 0)
-                        answerText.setText(textOutput);
+                if (lastChar == ' ') {
+                    lastCount = 0;
+                    newResult += "space";
+                } else {
+                    lastCount = count;
+                    newResult += lastChar;
                 }
+                newResult += ") | Duration: " + ((startTime - endTime) / 1000) + " second\n";
+                textOutput = newResult + textOutput;
+
+                if (string.length() > 0)
+                    answerText.setText(textOutput);
             }
         });
     }
