@@ -53,6 +53,8 @@
         <activity android:name=".stroop.StroopInTestActivity"/>
         <activity android:name=".stroop.StroopResultActivity"/>
         <activity android:name=".KeystokeLogger.KeystrokeLoggerActivity"/>
+        <activity android:name=".Log.LogActivity"/>
+        <activity android:name=".Log.GoNogoLogActivity"/>
 
         <receiver android:name="Broadcaster.BatteryBroadcaster">
             <intent-filter>

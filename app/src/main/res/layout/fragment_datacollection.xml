@@ -183,7 +183,6 @@
                     android:layout_height="wrap_content"
                     android:text="GPS Log"
                     android:textAlignment="center"
-                    android:textColor="#2196F3"
                     android:textSize="10dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>

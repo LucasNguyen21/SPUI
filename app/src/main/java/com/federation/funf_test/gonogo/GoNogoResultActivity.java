@@ -6,18 +6,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.federation.funf_test.MainActivity;
 import com.federation.funf_test.R;
+import com.federation.funf_test.SQLite.DatabaseHelper;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class GoNogoResultActivity extends Activity {
     TextView resultText;
     Button returnHomeBtn;
+    DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +61,21 @@ public class GoNogoResultActivity extends Activity {
 
             resultText.append(statusCon + "|"  +"   Answer Time: " + ansTimeFormatted + " s   |" + "   Result: " + resultCon);
             resultText.append("\n");
+
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            String timeStamp = String.valueOf(formatter.format(date.getTime()));
+
+
+
+            databaseHelper = new DatabaseHelper(GoNogoResultActivity.this);
+            boolean isSuccess = databaseHelper.addData(statusCon, String.valueOf(ansTimeFormatted), String.valueOf(resultCon), timeStamp);
+
+            if(isSuccess){
+                Toast.makeText(this, "Save Result Successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Save Result Unsuccessfully", Toast.LENGTH_SHORT).show();
+            }
         }
 
         returnHomeBtn.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +86,7 @@ public class GoNogoResultActivity extends Activity {
             }
         });
     }
+
 
     @Override
     public void onBackPressed() {

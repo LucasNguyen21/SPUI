@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.federation.funf_test.AccelerometerActivity;
 import com.federation.funf_test.KeystokeLogger.KeystrokeLoggerActivity;
+import com.federation.funf_test.Log.LogActivity;
 import com.federation.funf_test.R;
 import com.federation.funf_test.gonogo.GoNogoTestActivity;
 import com.federation.funf_test.stroop.StroopTestActivity;
@@ -22,6 +23,7 @@ public class TestFragment extends Fragment {
     Button gonogoBtn;
     Button stroopBtn;
     Button keystrokeLoggerBtn;
+    Button logBtn;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -31,6 +33,8 @@ public class TestFragment extends Fragment {
         gonogoBtn = (Button) root.findViewById(R.id.gonogo_btn);
         stroopBtn = (Button) root.findViewById(R.id.stroop_btn);
         keystrokeLoggerBtn = (Button) root.findViewById(R.id.keystrokeLog_btn);
+        logBtn = (Button) root.findViewById(R.id.logMainBtn);
+
 
         gonogoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +57,14 @@ public class TestFragment extends Fragment {
             public void onClick(View v) {
                 Intent keystrokeLoggerIntent = new Intent(getActivity(), KeystrokeLoggerActivity.class);
                 startActivity(keystrokeLoggerIntent);
+            }
+        });
+
+        logBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent logIntent = new Intent(getActivity(), LogActivity.class);
+                startActivity(logIntent);
             }
         });
 
