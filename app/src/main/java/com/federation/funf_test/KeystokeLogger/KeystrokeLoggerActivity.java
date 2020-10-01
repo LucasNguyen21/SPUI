@@ -66,20 +66,18 @@ public class KeystrokeLoggerActivity extends Activity {
 
                     charCount++;
 
-                    if (string.length() == 0) {
-                        answerInput.setText("");
-                    }
-
                     if (charCount > 1)
                         startTime = System.currentTimeMillis();
 
                     String newResult = charCount + ". Key: (";
 
-                     if (textOnChanged.length() - textBeforeChanged.length() <= -1) {
+                    if (textOnChanged.length() - textBeforeChanged.length() <= -1) {
                         newResult += "backspace";
                     } else if (lastChar == ' ') {
                         lastCount = 0;
                         newResult += "space";
+                    } else if (lastChar == '\n'){
+                        newResult += "Enter";
                     } else {
                         lastCount = count;
                         newResult += lastChar;
