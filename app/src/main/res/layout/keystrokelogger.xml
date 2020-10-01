@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:gravity="center|center_vertical"
-        android:text="Can you tell me your dream?"
+        android:text="Where are you and how are you feeling?"
         android:textSize="18dp"
         android:textAlignment="center" />
 

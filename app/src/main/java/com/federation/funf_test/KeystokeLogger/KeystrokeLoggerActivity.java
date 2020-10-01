@@ -27,6 +27,8 @@ public class KeystrokeLoggerActivity extends Activity {
     private String textOutput = "";
     private int charCount = 0;
     private int lastCount = 0;
+    private String textBeforeChanged;
+    private String textOnChanged;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +36,8 @@ public class KeystrokeLoggerActivity extends Activity {
         setContentView(R.layout.keystrokelogger);
         answerInput = (TextInputEditText) findViewById(R.id.answer_input);
         answerText = (TextView) findViewById(R.id.answer_text);
+
+        answerInput.setText("");
 
         answerInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -44,34 +48,51 @@ public class KeystrokeLoggerActivity extends Activity {
             @Override
             public void beforeTextChanged(CharSequence s, int start,
                                           int count, int after) {
+                textBeforeChanged = String.valueOf(s);
+                Log.d("KeyTest", "\nBefore Text change:\n Start: " + start + "\nAfter: " + after + "\nCount: " + count + "\nString: " + s);
             }
 
             @Override
             public void onTextChanged(CharSequence string, int start,
                                       int before, int count) {
 
-                char lastChar = string.charAt(string.length() - 1);
+                Log.d("KeyTest", "Start: " + start + "\nBefore: " + before + "\nCount: " + count + "\nString: " + string);
 
-                charCount++;
 
-                if (charCount > 1)
-                    startTime = System.currentTimeMillis();
 
-                String newResult = charCount + ". Key: (";
+                if(String.valueOf(string).isEmpty() == false) {
+                    textOnChanged = String.valueOf(string);
+                    char lastChar = string.charAt(string.length() - 1);
 
-                if (lastChar == ' ') {
-                    lastCount = 0;
-                    newResult += "space";
-                } else {
-                    lastCount = count;
-                    newResult += lastChar;
+                    charCount++;
+
+                    if (string.length() == 0) {
+                        answerInput.setText("");
+                    }
+
+                    if (charCount > 1)
+                        startTime = System.currentTimeMillis();
+
+                    String newResult = charCount + ". Key: (";
+
+                    if (lastChar == ' ') {
+                        lastCount = 0;
+                        newResult += "space";
+                    } else if (textOnChanged.length() - textBeforeChanged.length() == -1) {
+                        newResult += "backspace";
+                    } else {
+                        lastCount = count;
+                        newResult += lastChar;
+                    }
+                    newResult += ") | Duration: " + ((startTime - endTime) / 1000) + " second\n";
+                    textOutput = newResult + textOutput;
+
+                    if (string.length() > 0)
+                        answerText.setText(textOutput);
                 }
-                newResult += ") | Duration: " + ((startTime - endTime) / 1000) + " second\n";
-                textOutput = newResult + textOutput;
 
-                if (string.length() > 0)
-                    answerText.setText(textOutput);
-            }
+                }
+
         });
     }
 }
