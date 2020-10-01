@@ -75,11 +75,11 @@ public class KeystrokeLoggerActivity extends Activity {
 
                     String newResult = charCount + ". Key: (";
 
-                    if (lastChar == ' ') {
+                     if (textOnChanged.length() - textBeforeChanged.length() <= -1) {
+                        newResult += "backspace";
+                    } else if (lastChar == ' ') {
                         lastCount = 0;
                         newResult += "space";
-                    } else if (textOnChanged.length() - textBeforeChanged.length() == -1) {
-                        newResult += "backspace";
                     } else {
                         lastCount = count;
                         newResult += lastChar;
