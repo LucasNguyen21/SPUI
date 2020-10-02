@@ -33,7 +33,6 @@ public class StroopResultActivity extends Activity {
     TextView resultText;
     Button returnHomeBtn;
 
-    TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
     ArrayList<Question> resultList;
 
     private ProgressDialog pDialog;
