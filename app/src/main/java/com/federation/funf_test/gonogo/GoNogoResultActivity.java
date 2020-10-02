@@ -27,7 +27,6 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class GoNogoResultActivity extends Activity {
     private ProgressDialog pDialog;
 
     JSONParser jsonParser = new JSONParser();
-    private static String url_create = "http://pos.pentacle.tech/api/gonogo/create";
+    private static String url_create = "https://pos.pentacle.tech/api/gonogo/create";
     private static final String TAG_SUCCESS = "success";
 
     @Override
@@ -109,7 +108,7 @@ public class GoNogoResultActivity extends Activity {
         return;
     }
 
-    class CreateNewResult extends AsyncTask<String, String, String> {
+    class CreateNewResult extends AsyncTask<String, String, JSONObject> {
         /**
          * Before starting background thread Show Progress Dialog
          */
@@ -126,19 +125,39 @@ public class GoNogoResultActivity extends Activity {
         /**
          * Creating product
          */
-        protected String doInBackground(String... args) {
+        protected JSONObject doInBackground(String... args) {
             // Building Parameters
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            ArrayList params = new ArrayList();
+            ArrayList action_list = new ArrayList();
+            ArrayList duration_list = new ArrayList();
+            ArrayList result_list = new ArrayList();
+
+            for (int i = 0; i < resultList.size(); i++) {
+                int status = resultList.get(i).status;
+
+                action_list.add(status);
+
+                double ansTime = resultList.get(i).ansTime;
+                DecimalFormat df = new DecimalFormat("0.00");
+                String ansTimeFormatted = df.format(ansTime);
+
+                duration_list.add(ansTimeFormatted);
+
+                boolean result = resultList.get(i).result;
+                result_list.add(result);
+            }
+
             params.add(new BasicNameValuePair("device_id", "1"));
-            params.add(new BasicNameValuePair("action_list", "2"));
-            params.add(new BasicNameValuePair("duration_list", "3"));
-            params.add(new BasicNameValuePair("result_list", "4"));
+            params.add(new BasicNameValuePair("action_list", action_list.toString()));
+            params.add(new BasicNameValuePair("duration_list", duration_list.toString()));
+            params.add(new BasicNameValuePair("result_list", result_list.toString()));
+
             // getting JSON Object
             // Note that create product url accepts POST method
             JSONObject json = jsonParser.makeHttpRequest(url_create,
                     "POST", params);
             // check log cat fro response
-
+            Log.d("Debug", json.toString());
 
             // check for success tag
             try {
@@ -153,13 +172,13 @@ public class GoNogoResultActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return null;
+            return json;
         }
 
         /**
          * After completing background task Dismiss the progress dialog
          **/
-        protected void onPostExecute(String file_url) {
+        protected void onPostExecute(JSONObject file_url) {
             // dismiss the dialog once done
             pDialog.dismiss();
         }
