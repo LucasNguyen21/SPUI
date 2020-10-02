@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class GoNogoResultActivity extends Activity {
     TextView resultText;
@@ -147,13 +150,16 @@ public class GoNogoResultActivity extends Activity {
                 result_list.add(result);
             }
 
-            params.add(new BasicNameValuePair("device_id", "1"));
+            String androidId = Settings.Secure.getString(getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+
+            params.add(new BasicNameValuePair("device_id", androidId));
             params.add(new BasicNameValuePair("action_list", action_list.toString()));
             params.add(new BasicNameValuePair("duration_list", duration_list.toString()));
             params.add(new BasicNameValuePair("result_list", result_list.toString()));
 
             // getting JSON Object
-            // Note that create product url accepts POST method
+            // Note that create product url accepts POST methodN
             JSONObject json = jsonParser.makeHttpRequest(url_create,
                     "POST", params);
             // check log cat fro response
