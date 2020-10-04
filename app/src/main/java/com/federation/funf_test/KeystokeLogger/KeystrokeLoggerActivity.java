@@ -1,22 +1,16 @@
 package com.federation.funf_test.KeystokeLogger;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
 import com.federation.funf_test.R;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 
 public class KeystrokeLoggerActivity extends Activity {
