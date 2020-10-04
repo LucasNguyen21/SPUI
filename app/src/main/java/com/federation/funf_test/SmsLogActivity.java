@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,8 +99,10 @@ public class SmsLogActivity extends Activity {
                 newSMS.put("device_id", androidId);
                 newSMS.put("address", i.address);
                 newSMS.put("content", i.body);
-                newSMS.put("sent_at", new Timestamp(i.sentDate).toString());
-                newSMS.put("received_at", new Timestamp(i.sentDate).toString());
+                newSMS.put("seen_status", i.seen);
+                newSMS.put("read_status", i.read);
+                newSMS.put("sent_at", new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(new Timestamp(i.sentDate))).toString();
+                newSMS.put("received_at", new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(new Timestamp(i.receivedDate))).toString();
 
                 smsArrayList.add(newSMS);
             } catch (JSONException e) {
