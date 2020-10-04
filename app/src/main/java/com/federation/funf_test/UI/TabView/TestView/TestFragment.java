@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.federation.funf_test.AccelerometerActivity;
 import com.federation.funf_test.KeystokeLogger.KeystrokeLoggerActivity;
 import com.federation.funf_test.Log.LogActivity;
+import com.federation.funf_test.QuestionnaireActivity;
 import com.federation.funf_test.R;
 import com.federation.funf_test.gonogo.GoNogoTestActivity;
 import com.federation.funf_test.stroop.StroopTestActivity;
@@ -55,7 +56,7 @@ public class TestFragment extends Fragment {
         keystrokeLoggerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent keystrokeLoggerIntent = new Intent(getActivity(), KeystrokeLoggerActivity.class);
+                Intent keystrokeLoggerIntent = new Intent(getActivity(), QuestionnaireActivity.class);
                 startActivity(keystrokeLoggerIntent);
             }
         });

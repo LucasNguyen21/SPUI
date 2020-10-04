@@ -59,6 +59,7 @@
         <activity android:name=".KeystokeLogger.KeystrokeLoggerActivity"/>
         <activity android:name=".Log.LogActivity"/>
         <activity android:name=".Log.GoNogoLogActivity"/>
+        <activity android:name=".QuestionnaireActivity"/>
 
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
 
