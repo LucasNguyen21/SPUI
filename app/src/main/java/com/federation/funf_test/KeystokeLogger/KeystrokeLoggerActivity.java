@@ -1,21 +1,24 @@
 package com.federation.funf_test.KeystokeLogger;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.federation.funf_test.MainActivity;
 import com.federation.funf_test.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 
 public class KeystrokeLoggerActivity extends Activity {
     private TextInputEditText answerInput;
-    private TextView answerText;
     private double startTime;
     private double endTime;
     private String textOutput = "";
@@ -23,15 +26,28 @@ public class KeystrokeLoggerActivity extends Activity {
     private int lastCount = 0;
     private String textBeforeChanged;
     private String textOnChanged;
+    private Button saveButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.keystrokelogger);
         answerInput = (TextInputEditText) findViewById(R.id.answer_input);
-        answerText = (TextView) findViewById(R.id.answer_text);
+        saveButton = (Button) findViewById(R.id.saveButton);
 
         answerInput.setText("");
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //SAVE DATA TO SERVER
+
+                //Navigate to main view after finish saving
+                Intent toMainActivityIntent = new Intent(KeystrokeLoggerActivity.this, MainActivity.class);
+                startActivity(toMainActivityIntent);
+            }
+        });
+
 
         answerInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -79,8 +95,8 @@ public class KeystrokeLoggerActivity extends Activity {
                     newResult += ") | Duration: " + ((startTime - endTime) / 1000) + " second\n";
                     textOutput = newResult + textOutput;
 
-                    if (string.length() > 0)
-                        answerText.setText(textOutput);
+//                    if (string.length() > 0)
+//                        answerText.setText(textOutput);
                 }
 
                 }

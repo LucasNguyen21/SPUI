@@ -1,11 +1,17 @@
 package com.federation.funf_test;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 
+import com.federation.funf_test.KeystokeLogger.KeystrokeLoggerActivity;
 import com.federation.funf_test.ListAdapter.Question;
 import com.federation.funf_test.ListAdapter.QuestionnaireListAdapter;
 
@@ -15,12 +21,14 @@ public class QuestionnaireActivity extends Activity {
 
     ArrayList<Question> questions = new ArrayList<>();
     ListView listView;
+    Button nextButton;
+    Boolean canSave;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.questionnaire_list);
-
+        nextButton = (Button) findViewById(R.id.questionnaireNextButton);
         listView = (ListView) findViewById(R.id.questionnaireListView);
 
         setQuestions();
@@ -28,8 +36,30 @@ public class QuestionnaireActivity extends Activity {
         QuestionnaireListAdapter questionnaireListAdapter = new QuestionnaireListAdapter(this, questions);
         listView.setAdapter(questionnaireListAdapter);
 
-        
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(int i = 0; i < questions.size(); i++){
+                    Log.d("QUESTIONNAIRE", "onClick: " + questions.get(i).getQuestion());
+                    Log.d("QUESTIONNAIRE", "onClick: " + questions.get(i).getAnswerId());
+
+                    //Check if user answered all question?
+                    if(questions.get(i).getAnswerId() == -1) {
+                        canSave = false;
+                    } else {
+                        canSave = true;
+                    }
+                }
+
+                if(canSave == true){
+                    //SAVE DATA and Navigate to keyboard tracker
+                    Intent toKeystrokeLoggerIntent = new Intent(QuestionnaireActivity.this, KeystrokeLoggerActivity.class);
+                    startActivity(toKeystrokeLoggerIntent);
+                }
+            }
+        });
     }
+
 
     public void setQuestions() {
         questions.add(new Question("SUQ-G1. How often do you have your cellphone on your person?", -1));
