@@ -101,8 +101,8 @@ public class SmsLogActivity extends Activity {
                 newSMS.put("content", i.body);
                 newSMS.put("seen_status", i.seen);
                 newSMS.put("read_status", i.read);
-                newSMS.put("sent_at", new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(new Timestamp(i.sentDate))).toString();
-                newSMS.put("received_at", new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(new Timestamp(i.receivedDate))).toString();
+                newSMS.put("sent_at", i.sentDate).toString();
+                newSMS.put("received_at", i.receivedDate).toString();
 
                 smsArrayList.add(newSMS);
             } catch (JSONException e) {
@@ -120,6 +120,7 @@ public class SmsLogActivity extends Activity {
 
         Log.d("Debug", smsList.toString());
 
+        params.add(new BasicNameValuePair("device_id", androidId));
         params.add(new BasicNameValuePair("sms_list", smsArrayList.toString()));
         new CreateNewResult().execute();
     }
