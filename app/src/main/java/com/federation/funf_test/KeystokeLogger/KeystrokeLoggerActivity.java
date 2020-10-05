@@ -33,6 +33,8 @@ public class KeystrokeLoggerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.keystrokelogger);
         answerInput = (TextInputEditText) findViewById(R.id.answer_input);
+        answerInput.setMaxHeight(answerInput.getHeight());
+
         saveButton = (Button) findViewById(R.id.saveButton);
 
         answerInput.setText("");

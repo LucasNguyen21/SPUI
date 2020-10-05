@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.READ_HISTORY_BOOKMARKS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
 
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -56,7 +57,10 @@
         <activity android:name=".stroop.StroopTestActivity"/>
         <activity android:name=".stroop.StroopInTestActivity"/>
         <activity android:name=".stroop.StroopResultActivity"/>
-        <activity android:name=".KeystokeLogger.KeystrokeLoggerActivity"/>
+        <activity android:name=".KeystokeLogger.KeystrokeLoggerActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"/>
         <activity android:name=".Log.LogActivity"/>
         <activity android:name=".Log.GoNogoLogActivity"/>
         <activity android:name=".QuestionnaireActivity"/>
@@ -69,6 +73,12 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
             </intent-filter>
         </receiver>
+
+
+        <receiver android:name="Broadcaster.AlarmReceiver">
+
+        </receiver>
+
     </application>
 
 </manifest>

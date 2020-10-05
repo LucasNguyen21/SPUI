@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -22,7 +23,7 @@ public class QuestionnaireActivity extends Activity {
     ArrayList<Question> questions = new ArrayList<>();
     ListView listView;
     Button nextButton;
-    Boolean canSave;
+    ArrayList<Boolean> answerList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +31,6 @@ public class QuestionnaireActivity extends Activity {
         setContentView(R.layout.questionnaire_list);
         nextButton = (Button) findViewById(R.id.questionnaireNextButton);
         listView = (ListView) findViewById(R.id.questionnaireListView);
-
         setQuestions();
 
         QuestionnaireListAdapter questionnaireListAdapter = new QuestionnaireListAdapter(this, questions);
@@ -39,22 +39,34 @@ public class QuestionnaireActivity extends Activity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int canSave = 0;
+                answerList = new ArrayList<>();
                 for(int i = 0; i < questions.size(); i++){
                     Log.d("QUESTIONNAIRE", "onClick: " + questions.get(i).getQuestion());
                     Log.d("QUESTIONNAIRE", "onClick: " + questions.get(i).getAnswerId());
 
                     //Check if user answered all question?
                     if(questions.get(i).getAnswerId() == -1) {
-                        canSave = false;
+                        answerList.add(false);
                     } else {
-                        canSave = true;
+                        answerList.add(true);
                     }
                 }
 
-                if(canSave == true){
+                for (int i = 0; i < answerList.size(); i++) {
+                    if(answerList.get(i) == true){
+                        canSave += 1;
+                    } else {
+                        //Do nothing
+                    }
+                }
+
+                if(canSave == answerList.size()){
                     //SAVE DATA and Navigate to keyboard tracker
                     Intent toKeystrokeLoggerIntent = new Intent(QuestionnaireActivity.this, KeystrokeLoggerActivity.class);
                     startActivity(toKeystrokeLoggerIntent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "You need to answer all question", Toast.LENGTH_SHORT).show();
                 }
             }
         });

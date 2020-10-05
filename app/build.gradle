@@ -39,6 +39,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'me.everything:providers-android:1.0.1'
-
     implementation 'org.apache.httpcomponents:httpcore:4.4.1'
+
+    //noinspection GradleCompatible
+    implementation 'com.android.support:appcompat-v7:26.1.0'
 }

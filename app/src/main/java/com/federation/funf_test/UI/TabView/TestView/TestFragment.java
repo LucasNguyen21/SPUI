@@ -1,19 +1,25 @@
 package com.federation.funf_test.UI.TabView.TestView;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.federation.funf_test.AccelerometerActivity;
 import com.federation.funf_test.KeystokeLogger.KeystrokeLoggerActivity;
 import com.federation.funf_test.Log.LogActivity;
+import com.federation.funf_test.MainActivity;
 import com.federation.funf_test.QuestionnaireActivity;
 import com.federation.funf_test.R;
 import com.federation.funf_test.gonogo.GoNogoTestActivity;
