@@ -46,7 +46,6 @@ public class NotificationHelper extends ContextWrapper {
             mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         }
-
         return mManager;
     }
 

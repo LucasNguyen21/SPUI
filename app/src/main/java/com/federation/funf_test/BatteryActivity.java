@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -65,8 +66,19 @@ public class BatteryActivity extends Activity {
 
             batterySttText.setText("Current Percentage: " + batteryPct + " %"  + "\n" + "Is Charging: " + isCharging + "\n" + "USB Charge?: " + usbCharge + "\n" + "AC Charge?: " + acCharge + "\n" + "Battery Temperature: " + batteryTemperature + " °C" + "\n" + "Current Voltage: " + batteryVol + " Vol" + "\n" + "Record Time: " + currentTime + "\n"
                     + "Technology: " + batTech + "\n");
+
+            Log.d("huhuhuhu", "Current Percentage: " + batteryPct + " %"  + "\n" + "Is Charging: " + isCharging + "\n" + "USB Charge?: " + usbCharge + "\n" + "AC Charge?: " + acCharge + "\n" + "Battery Temperature: " + batteryTemperature + " °C" + "\n" + "Current Voltage: " + batteryVol + " Vol" + "\n" + "Record Time: " + currentTime + "\n"
+                    + "Technology: " + batTech + "\n");
+
         }
     };
 
     //Where to unregister Receiver
+
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+    }
 }
