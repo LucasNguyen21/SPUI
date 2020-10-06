@@ -138,23 +138,23 @@ public class StroopResultActivity extends Activity {
                 int name = resultList.get(i).name;
 
                 if (color == 0) {
-                    color_list.add("Red");
+                    color_list.add("\"Red\"");
                 } else if (color == 1) {
-                    color_list.add("Yellow");
+                    color_list.add("\"Yellow\"");
                 } else if (color == 2) {
-                    color_list.add("Green");
+                    color_list.add("\"Green\"");
                 } else if (color == 3) {
-                    color_list.add("Blue");
+                    color_list.add("\"Blue\"");
                 }
 
                 if (name == 0) {
-                    name_list.add("Red");
+                    name_list.add("\"Red\"");
                 } else if (color == 1) {
-                    name_list.add("Yellow");
+                    name_list.add("\"Yellow\"");
                 } else if (color == 2) {
-                    name_list.add("Green");
+                    name_list.add("\"Green\"");
                 } else if (color == 3) {
-                    name_list.add("Blue");
+                    name_list.add("\"Blue\"");
                 }
 
                 double ansTime = resultList.get(i).ansTime;
@@ -165,9 +165,9 @@ public class StroopResultActivity extends Activity {
 
                 boolean result = resultList.get(i).result;
                 if (result == true){
-                    result_list.add("Correct");
+                    result_list.add("\"Correct\"");
                 } else {
-                    result_list.add("Incorrect");
+                    result_list.add("\"Incorrect\"");
                 }
             }
 
