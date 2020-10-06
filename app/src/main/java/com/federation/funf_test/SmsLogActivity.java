@@ -101,8 +101,8 @@ public class SmsLogActivity extends Activity {
                 newSMS.put("content", i.body);
                 newSMS.put("seen_status", i.seen);
                 newSMS.put("read_status", i.read);
-                newSMS.put("sent_at", i.sentDate).toString();
-                newSMS.put("received_at", i.receivedDate).toString();
+                newSMS.put("sent_at", i.sentDate);
+                newSMS.put("received_at", i.receivedDate);
 
                 smsArrayList.add(newSMS);
             } catch (JSONException e) {
