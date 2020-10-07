@@ -17,9 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.federation.funf_test.JSONParser;
-import com.federation.funf_test.ListAdapter.Question;
 import com.federation.funf_test.MainActivity;
-import com.federation.funf_test.QuestionnaireActivity;
 import com.federation.funf_test.R;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -133,8 +131,6 @@ public class KeystrokeLoggerActivity extends Activity {
                     duration_list.add((startTime - endTime) / 1000);
                     textOutput = newResult + textOutput;
 
-//                    if (string.length() > 0)
-//                        answerText.setText(textOutput);
                 }
 
                 }
@@ -157,11 +153,9 @@ public class KeystrokeLoggerActivity extends Activity {
          */
         protected JSONObject doInBackground(String... args) {
             // getting JSON Object
-            // Note that create product url accepts POST methodN
+            // Note that create product url accepts POST method
             JSONObject json = jsonParser.makeHttpRequest(url_create,
                     "POST", params);
-            // check log cat fro response
-            //Log.d("Debug", json.toString());
 
             return json;
         }

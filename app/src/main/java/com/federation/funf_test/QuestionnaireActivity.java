@@ -20,13 +20,9 @@ import com.federation.funf_test.ListAdapter.Question;
 import com.federation.funf_test.ListAdapter.QuestionnaireListAdapter;
 
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import me.everything.providers.android.telephony.Sms;
 
 public class QuestionnaireActivity extends Activity {
 

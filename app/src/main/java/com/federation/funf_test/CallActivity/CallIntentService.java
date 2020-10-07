@@ -25,13 +25,6 @@ import java.util.List;
 import me.everything.providers.android.telephony.Sms;
 import me.everything.providers.android.telephony.TelephonyProvider;
 
-/**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p>
- * TODO: Customize class - update intent actions, extra parameters and static
- * helper methods.
- */
 public class CallIntentService extends BroadcastReceiver {
 
     ArrayList params = new ArrayList();
@@ -119,18 +112,12 @@ public class CallIntentService extends BroadcastReceiver {
     }
 
     class CreateNewResult extends AsyncTask<String, String, JSONObject> {
-        /**
-         * Before starting background thread Show Progress Dialog
-         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
         }
 
-        /**
-         * Creating product
-         */
         protected JSONObject doInBackground(String... args) {
             // getting JSON Object
             // Note that create product url accepts POST methodN
@@ -142,9 +129,6 @@ public class CallIntentService extends BroadcastReceiver {
             return json;
         }
 
-        /**
-         * After completing background task Dismiss the progress dialog
-         **/
         protected void onPostExecute(JSONObject file_url) {
             // dismiss the dialog once done
         }

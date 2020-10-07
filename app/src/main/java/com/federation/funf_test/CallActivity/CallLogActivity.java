@@ -55,25 +55,17 @@ public class CallLogActivity extends Activity {
         switch (requestCode) {
             case 1: {
 
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     showCallLog();
 
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
                 } else {
 
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                     Toast.makeText(CallLogActivity.this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 
@@ -151,18 +143,12 @@ public class CallLogActivity extends Activity {
     }
 
     class CreateNewResult extends AsyncTask<String, String, JSONObject> {
-        /**
-         * Before starting background thread Show Progress Dialog
-         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
         }
 
-        /**
-         * Creating product
-         */
         protected JSONObject doInBackground(String... args) {
             // getting JSON Object
             // Note that create product url accepts POST methodN
@@ -174,9 +160,6 @@ public class CallLogActivity extends Activity {
             return json;
         }
 
-        /**
-         * After completing background task Dismiss the progress dialog
-         **/
         protected void onPostExecute(JSONObject file_url) {
             // dismiss the dialog once done
         }

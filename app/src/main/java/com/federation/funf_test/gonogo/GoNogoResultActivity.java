@@ -20,7 +20,6 @@ import com.federation.funf_test.MainActivity;
 import com.federation.funf_test.R;
 import com.federation.funf_test.SQLite.DatabaseHelper;
 
-import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,8 +29,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 public class GoNogoResultActivity extends Activity {
     TextView resultText;
@@ -112,9 +109,6 @@ public class GoNogoResultActivity extends Activity {
     }
 
     class CreateNewResult extends AsyncTask<String, String, JSONObject> {
-        /**
-         * Before starting background thread Show Progress Dialog
-         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -125,9 +119,6 @@ public class GoNogoResultActivity extends Activity {
             pDialog.show();
         }
 
-        /**
-         * Creating product
-         */
         protected JSONObject doInBackground(String... args) {
             // Building Parameters
             ArrayList params = new ArrayList();
@@ -158,8 +149,7 @@ public class GoNogoResultActivity extends Activity {
             params.add(new BasicNameValuePair("duration_list", duration_list.toString()));
             params.add(new BasicNameValuePair("result_list", result_list.toString()));
 
-            // getting JSON Object
-            // Note that create product url accepts POST methodN
+
             JSONObject json = jsonParser.makeHttpRequest(url_create,
                     "POST", params);
             // check log cat fro response
