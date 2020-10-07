@@ -46,18 +46,12 @@ public class LocationIntentService extends BroadcastReceiver {
     JSONParser jsonParser = new JSONParser();
     private static String url_create = "https://pos.pentacle.tech/api/location/create";
     private static final String TAG_SUCCESS = "success";
-    List<Sms> smsList;
 
     FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("android.location.PROVIDERS_CHANGED")) {
-            ArrayList<JSONObject> smsArrayList= new ArrayList<>();
-
-            TelephonyProvider telephonyProvider = new TelephonyProvider(context);
-            smsList = telephonyProvider.getSms(TelephonyProvider.Filter.ALL).getList();
-
             String androidId = Settings.Secure.getString(context.getContentResolver(),
                     Settings.Secure.ANDROID_ID);
 
