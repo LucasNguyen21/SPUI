@@ -103,7 +103,7 @@ public class LocationActivity extends Activity {
 
                         params.add(new BasicNameValuePair("latitude", Double.toString(addresses.get(0).getLatitude())));
                         params.add(new BasicNameValuePair("longitude", Double.toString(addresses.get(0).getLongitude())));
-                        params.add(new BasicNameValuePair("longitude", addresses.get(0).getAddressLine(0)));
+                        params.add(new BasicNameValuePair("address", addresses.get(0).getAddressLine(0)));
                         new CreateNewResult().execute();
 
                     } catch (IOException e) {

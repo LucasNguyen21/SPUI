@@ -22,16 +22,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import me.everything.providers.android.telephony.Sms;
-import me.everything.providers.android.telephony.TelephonyProvider;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -77,7 +73,7 @@ public class LocationIntentService extends BroadcastReceiver {
                         List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                         params.add(new BasicNameValuePair("latitude", Double.toString(addresses.get(0).getLatitude())));
                         params.add(new BasicNameValuePair("longitude", Double.toString(addresses.get(0).getLongitude())));
-                        params.add(new BasicNameValuePair("longitude", addresses.get(0).getAddressLine(0)));
+                        params.add(new BasicNameValuePair("address", addresses.get(0).getAddressLine(0)));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
