@@ -28,7 +28,7 @@ public class StroopInTestActivity extends Activity {
     Button blueBtn;
 
     //Test variables
-    int maxQuestion = 15;
+    int maxQuestion = 30;
     int currentCount = 0;
     double startTime;
     double finishTime;

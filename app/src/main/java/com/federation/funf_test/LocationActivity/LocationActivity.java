@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import me.everything.providers.android.telephony.Sms;
+
 public class LocationActivity extends Activity {
     TextView locationTextView;
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -94,7 +96,10 @@ public class LocationActivity extends Activity {
                     try {
                         List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                         locationTextView.setText("");
-                        locationTextView.append("Latitude: " + addresses.get(0).getLatitude() + "\nLongitude: " + addresses.get(0).getLongitude() + "\nAddress: " + addresses.get(0).getAddressLine(0));
+
+                        for (Address i : addresses) {
+                            locationTextView.append("\nLatitude: " + i.getLatitude() + "\nLongitude: " + i.getLongitude() + "\nAddress: " + i.getAddressLine(0));
+                        }
 
                         String androidId = Settings.Secure.getString(getContentResolver(),
                                 Settings.Secure.ANDROID_ID);
