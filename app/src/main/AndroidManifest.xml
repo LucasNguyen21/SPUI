@@ -50,7 +50,7 @@
         <activity android:name=".BatteryActivity" />
         <activity android:name=".CallActivity.CallLogActivity" />
         <activity android:name=".AccelerometerActivity" />
-        <activity android:name=".LocationActivity" />
+        <activity android:name=".LocationActivity.LocationActivity" />
         <activity android:name=".BrowserActivity" />
         <activity android:name=".gonogo.GoNogoTestActivity" />
         <activity android:name=".gonogo.GoNogoInTestActivity" />
@@ -91,9 +91,9 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".CallActivity.CallIntentService">
+        <receiver android:name=".LocationActivity.LocationIntentService">
             <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.location.PROVIDERS_CHANGED" />
             </intent-filter>
         </receiver>
     </application>

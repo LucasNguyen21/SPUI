@@ -15,7 +15,7 @@ import com.federation.funf_test.AccelerometerActivity;
 import com.federation.funf_test.AppUsageActivity;
 import com.federation.funf_test.BatteryActivity;
 import com.federation.funf_test.CallActivity.CallLogActivity;
-import com.federation.funf_test.LocationActivity;
+import com.federation.funf_test.LocationActivity.LocationActivity;
 import com.federation.funf_test.R;
 import com.federation.funf_test.SMSActivity.SmsLogActivity;
 
