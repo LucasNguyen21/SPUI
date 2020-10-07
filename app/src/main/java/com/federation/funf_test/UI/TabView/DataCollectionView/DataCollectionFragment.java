@@ -6,12 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.federation.funf_test.AccelerometerActivity;
@@ -20,7 +17,7 @@ import com.federation.funf_test.BatteryActivity;
 import com.federation.funf_test.CallLogActivity;
 import com.federation.funf_test.LocationActivity;
 import com.federation.funf_test.R;
-import com.federation.funf_test.SmsLogActivity;
+import com.federation.funf_test.SMSActivity.SmsLogActivity;
 
 public class DataCollectionFragment extends Fragment {
     private DataCollectionViewModel dataCollectionViewModel;

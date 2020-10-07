@@ -1,4 +1,4 @@
-package com.federation.funf_test;
+package com.federation.funf_test.SMSActivity;
 
 import android.Manifest;
 import android.app.Activity;
@@ -15,15 +15,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
-import com.federation.funf_test.gonogo.GoNogoResultActivity;
+import com.federation.funf_test.JSONParser;
+import com.federation.funf_test.R;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Timestamp;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +31,6 @@ import me.everything.providers.android.telephony.TelephonyProvider;
 import static android.content.ContentValues.TAG;
 
 public class SmsLogActivity extends Activity {
-
     ListView smsLogListView;
     ArrayList params = new ArrayList();
 
