@@ -187,19 +187,6 @@ public class StroopResultActivity extends Activity {
             // check log cat fro response
             Log.d("Debug", json.toString());
 
-            // check for success tag
-            try {
-                int success = json.getInt(TAG_SUCCESS);
-                if (success == 1) {
-                    // successfully created product
-                    // closing this screen
-                    finish();
-                } else {
-                    // failed to create product
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
             return json;
         }
 
