@@ -1,15 +1,13 @@
-package com.federation.funf_test;
+package com.federation.funf_test.CallActivity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CallLog;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -18,18 +16,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
+import com.federation.funf_test.JSONParser;
+import com.federation.funf_test.R;
+
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-import me.everything.providers.android.telephony.Sms;
-import me.everything.providers.android.telephony.TelephonyProvider;
-
-import static android.content.ContentValues.TAG;
 
 public class CallLogActivity extends Activity {
 
@@ -85,7 +80,7 @@ public class CallLogActivity extends Activity {
 
     private String getCallDetails() {
         StringBuffer sb = new StringBuffer();
-        Cursor managedCursor = managedQuery(CallLog.Calls.CONTENT_URI, null,
+        Cursor managedCursor = getContentResolver().query(CallLog.Calls.CONTENT_URI, null,
                 null, null, null);
         int number = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
         int type = managedCursor.getColumnIndex(CallLog.Calls.TYPE);

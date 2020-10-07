@@ -51,7 +51,11 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.RECEIVE_SMS}, 1000);
         }
 
-        // Passing each menu ID as a set of Ids because each
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, 1000);
+        }
+
+            // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                  R.id.navigation_test, R.id.navigation_datacollection)

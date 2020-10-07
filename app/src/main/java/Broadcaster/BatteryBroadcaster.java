@@ -8,17 +8,12 @@ import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.federation.funf_test.CallLogActivity;
 import com.federation.funf_test.JSONParser;
-import com.federation.funf_test.gonogo.GoNogoResultActivity;
 
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class BatteryBroadcaster extends BroadcastReceiver {
