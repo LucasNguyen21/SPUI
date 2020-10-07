@@ -1,24 +1,37 @@
 package com.federation.funf_test.KeystokeLogger;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.federation.funf_test.JSONParser;
+import com.federation.funf_test.ListAdapter.Question;
 import com.federation.funf_test.MainActivity;
+import com.federation.funf_test.QuestionnaireActivity;
 import com.federation.funf_test.R;
 import com.google.android.material.textfield.TextInputEditText;
+
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class KeystrokeLoggerActivity extends Activity {
     private TextInputEditText answerInput;
+    private TextView questionText;
     private double startTime;
     private double endTime;
     private String textOutput = "";
@@ -28,11 +41,21 @@ public class KeystrokeLoggerActivity extends Activity {
     private String textOnChanged;
     private Button saveButton;
 
+    ArrayList params = new ArrayList();
+    ArrayList key_list = new ArrayList();
+    ArrayList duration_list = new ArrayList();
+
+    JSONParser jsonParser = new JSONParser();
+    private ProgressDialog pDialog;
+    private static String url_create = "https://pos.pentacle.tech/api/keystroke/create";
+    private static final String TAG_SUCCESS = "success";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.keystrokelogger);
         answerInput = (TextInputEditText) findViewById(R.id.answer_input);
+        questionText = (TextView) findViewById(R.id.question_text);
         answerInput.setMaxHeight(answerInput.getHeight());
 
         saveButton = (Button) findViewById(R.id.saveButton);
@@ -43,6 +66,17 @@ public class KeystrokeLoggerActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //SAVE DATA TO SERVER
+                String androidId = Settings.Secure.getString(getContentResolver(),
+                        Settings.Secure.ANDROID_ID);
+
+                JSONObject newQuestion = new JSONObject();
+
+                params.add(new BasicNameValuePair("device_id", androidId));
+                params.add(new BasicNameValuePair("question", questionText.getText().toString()));
+                params.add(new BasicNameValuePair("key_list", key_list.toString()));
+                params.add(new BasicNameValuePair("duration_list", duration_list.toString()));
+                params.add(new BasicNameValuePair("answer", answerInput.getText().toString()));
+                new CreateNewResult().execute();
 
                 //Navigate to main view after finish saving
                 Intent toMainActivityIntent = new Intent(KeystrokeLoggerActivity.this, MainActivity.class);
@@ -67,10 +101,7 @@ public class KeystrokeLoggerActivity extends Activity {
             @Override
             public void onTextChanged(CharSequence string, int start,
                                       int before, int count) {
-
                 Log.d("KeyTest", "Start: " + start + "\nBefore: " + before + "\nCount: " + count + "\nString: " + string);
-
-
 
                 if(String.valueOf(string).isEmpty() == false) {
                     textOnChanged = String.valueOf(string);
@@ -85,16 +116,21 @@ public class KeystrokeLoggerActivity extends Activity {
 
                     if (textOnChanged.length() - textBeforeChanged.length() <= -1) {
                         newResult += "backspace";
+                        key_list.add("backspace");
                     } else if (lastChar == ' ') {
                         lastCount = 0;
                         newResult += "space";
+                        key_list.add("space");
                     } else if (lastChar == '\n'){
                         newResult += "Enter";
+                        key_list.add("Enter");
                     } else {
                         lastCount = count;
                         newResult += lastChar;
+                        key_list.add(lastChar);
                     }
                     newResult += ") | Duration: " + ((startTime - endTime) / 1000) + " second\n";
+                    duration_list.add((startTime - endTime) / 1000);
                     textOutput = newResult + textOutput;
 
 //                    if (string.length() > 0)
@@ -104,6 +140,38 @@ public class KeystrokeLoggerActivity extends Activity {
                 }
 
         });
+    }
+
+    class CreateNewResult extends AsyncTask<String, String, JSONObject> {
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        /**
+         * Creating product
+         */
+        protected JSONObject doInBackground(String... args) {
+            // getting JSON Object
+            // Note that create product url accepts POST methodN
+            JSONObject json = jsonParser.makeHttpRequest(url_create,
+                    "POST", params);
+            // check log cat fro response
+            //Log.d("Debug", json.toString());
+
+            return json;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         **/
+        protected void onPostExecute(JSONObject file_url) {
+            // dismiss the dialog once done
+        }
     }
 }
 
