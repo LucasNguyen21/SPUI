@@ -14,8 +14,10 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.READ_HISTORY_BOOKMARKS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CALL_LOG" />

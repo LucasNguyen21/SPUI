@@ -83,7 +83,6 @@ public class SmsIntentService extends BroadcastReceiver {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
 
         /**

@@ -45,14 +45,13 @@ public class MainActivity extends AppCompatActivity {
         //Set background running for battery log
         setBatteryNotification();
 
-        setOnBoot();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.RECEIVE_SMS}, 1000);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, 1000);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(Manifest.permission.BROADCAST_SMS) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS, Manifest.permission.READ_CONTACTS, Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_PHONE_STATE, Manifest.permission.BROADCAST_SMS}, 1000);
         }
 
             // Passing each menu ID as a set of Ids because each
@@ -99,12 +98,6 @@ public class MainActivity extends AppCompatActivity {
     private void setBatteryNotification(){
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryBroadcaster, intentFilter);
-    }
-
-    OnBootBroadcaster onBootBroadcaster = new OnBootBroadcaster();
-    private void setOnBoot(){
-        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_LOCKED_BOOT_COMPLETED);
-        registerReceiver(onBootBroadcaster, intentFilter);
     }
 
     @Override
