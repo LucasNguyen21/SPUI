@@ -84,11 +84,6 @@ public class GoNogoResultActivity extends Activity {
             databaseHelper = new DatabaseHelper(GoNogoResultActivity.this);
             boolean isSuccess = databaseHelper.addData(statusCon, String.valueOf(ansTimeFormatted), String.valueOf(resultCon), timeStamp);
 
-            if (isSuccess) {
-                Toast.makeText(this, "Save Result Successfully", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Save Result Unsuccessfully", Toast.LENGTH_SHORT).show();
-            }
         }
 
         returnHomeBtn.setOnClickListener(new View.OnClickListener() {

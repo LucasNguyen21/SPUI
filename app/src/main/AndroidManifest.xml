@@ -28,6 +28,9 @@
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -79,6 +82,10 @@
                 <action android:name="android.intent.action.BATTERY_OKAY" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name="Broadcaster.LocationBroadcaster">
+        </receiver>
+
         <receiver android:name="Broadcaster.OnBootBroadcaster">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

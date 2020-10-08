@@ -1,23 +1,21 @@
-package com.federation.funf_test.LocationActivity;
+package Broadcaster;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.pm.PackageManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.provider.Settings;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 
 import com.federation.funf_test.JSONParser;
-import com.federation.funf_test.R;
+import com.federation.funf_test.LocationActivity.LocationActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,10 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class LocationActivity extends Activity {
-    TextView locationTextView;
-    FusedLocationProviderClient fusedLocationProviderClient;
+public class LocationBroadcaster extends BroadcastReceiver {
 
+    FusedLocationProviderClient fusedLocationProviderClient;
     ArrayList params = new ArrayList();
 
     JSONParser jsonParser = new JSONParser();
@@ -42,63 +39,37 @@ public class LocationActivity extends Activity {
     private static final String TAG_SUCCESS = "success";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.location_log);
-        locationTextView = (TextView) findViewById(R.id.location_TextView);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(LocationActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-        } else {
-            getLocation();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1: {
-
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    getLocation();
-
-                } else {
-
-                    Toast.makeText(LocationActivity.this, "Permission denied to read your Location", Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-
-        }
+    public void onReceive(Context context, Intent intent) {
+        getLocation(context);
     }
 
     @SuppressLint("MissingPermission")
-    public void getLocation(){
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+    public void getLocation(final Context context){
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
         fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
                 Location location = task.getResult();
                 if (location != null) {
-                    Geocoder geocoder = new Geocoder(LocationActivity.this, Locale.getDefault());
+                    Geocoder geocoder = new Geocoder(context, Locale.getDefault());
                     try {
                         List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                        locationTextView.setText("");
-                        locationTextView.append("Latitude: " + addresses.get(0).getLatitude() + "\nLongitude: " + addresses.get(0).getLongitude() + "\nAddress: " + addresses.get(0).getAddressLine(0));
 
-                        String androidId = Settings.Secure.getString(getContentResolver(),
-                                Settings.Secure.ANDROID_ID);
+//                        locationTextView.setText("");
+//                        locationTextView.append("Latitude: " + addresses.get(0).getLatitude() + "\nLongitude: " + addresses.get(0).getLongitude() + "\nAddress: " + addresses.get(0).getAddressLine(0));
+//
+//                        Double latitude
+
+                        Log.d("LOCATION_CHECK", "Location broadcast: " + addresses.get(0).getAddressLine(0));
+
+                        String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 
                         params.add(new BasicNameValuePair("device_id", androidId));
 
                         params.add(new BasicNameValuePair("latitude", Double.toString(addresses.get(0).getLatitude())));
                         params.add(new BasicNameValuePair("longitude", Double.toString(addresses.get(0).getLongitude())));
                         params.add(new BasicNameValuePair("address", addresses.get(0).getAddressLine(0)));
-                        new CreateNewResult().execute();
+                        new LocationBroadcaster.CreateNewResult().execute();
 
                     } catch (IOException e) {
                         e.printStackTrace();
