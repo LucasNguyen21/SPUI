@@ -14,9 +14,11 @@ import android.provider.Settings;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.federation.funf_test.JSONParser;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -47,16 +49,10 @@ public class LocationIntentService extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("android.location.PROVIDERS_CHANGED")) {
-            String androidId = Settings.Secure.getString(context.getContentResolver(),
-                    Settings.Secure.ANDROID_ID);
-
-            params.add(new BasicNameValuePair("device_id", androidId));
-            getLocation(context);
-
-            Toast.makeText(context, "GPS Changing", Toast.LENGTH_SHORT).show();
-
-            new CreateNewResult().execute();
+        if (LocationResult.hasResult(intent)){
+            LocationResult locationResult = LocationResult.extractResult(intent);
+            LocalBroadcastManager.getInstance(context).sendBroadcast(new
+                    Intent("googleLocation").putExtra("result", locationResult));
         }
     }
 
