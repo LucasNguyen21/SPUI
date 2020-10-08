@@ -2,6 +2,7 @@ package com.federation.funf_test;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import java.text.DateFormat;
@@ -37,6 +39,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
+import com.federation.funf_test.KeystokeLogger.KeystrokeLoggerActivity;
+
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class AppUsageActivity extends Activity implements OnItemSelectedListener {
     private static final String TAG = "UsageStatsActivity";
     private static final boolean localLOGV = false;
@@ -44,6 +52,13 @@ public class AppUsageActivity extends Activity implements OnItemSelectedListener
     private LayoutInflater mInflater;
     private UsageStatsAdapter mAdapter;
     private PackageManager mPm;
+
+    ArrayList params = new ArrayList();
+    ArrayList appUsageList = new ArrayList();
+
+    JSONParser jsonParser = new JSONParser();
+    private static String url_create = "https://pos.pentacle.tech/api/app_usage/create";
+    private static final String TAG_SUCCESS = "success";
 
     public static class AppNameComparator implements Comparator<UsageStats> {
         private Map<String, String> mAppLabelList;
@@ -58,8 +73,6 @@ public class AppUsageActivity extends Activity implements OnItemSelectedListener
             String blabel = mAppLabelList.get(b.getPackageName());
             return alabel.compareTo(blabel);
         }
-
-
     }
 
     private void requestPermissions() {
@@ -116,10 +129,14 @@ public class AppUsageActivity extends Activity implements OnItemSelectedListener
                 return;
             }
 
+            String androidId = Settings.Secure.getString(getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+
             ArrayMap<String, UsageStats> map = new ArrayMap<>();
             final int statCount = stats.size();
             for (int i = 0; i < statCount; i++) {
                 final android.app.usage.UsageStats pkgStats = stats.get(i);
+                JSONObject appObject = new JSONObject();
 
                 // load application labels for each application
                 try {
@@ -127,15 +144,21 @@ public class AppUsageActivity extends Activity implements OnItemSelectedListener
                     String label = appInfo.loadLabel(mPm).toString();
                     mAppLabelMap.put(pkgStats.getPackageName(), label);
 
-                    UsageStats existingStats =
-                            map.get(pkgStats.getPackageName());
+                    appObject.put("device_id", androidId);
+                    appObject.put("app_name", label);
+                    appObject.put("last_used", pkgStats.getLastTimeUsed());
+                    appObject.put("usage_time", pkgStats.getTotalTimeInForeground());
+
+                    appUsageList.add(appObject);
+
+                    UsageStats existingStats = map.get(pkgStats.getPackageName());
                     if (existingStats == null) {
                         map.put(pkgStats.getPackageName(), pkgStats);
                     } else {
                         existingStats.add(pkgStats);
                     }
 
-                } catch (NameNotFoundException e) {
+                } catch (NameNotFoundException | JSONException e) {
                     // This package may be gone.
                 }
             }
@@ -143,6 +166,11 @@ public class AppUsageActivity extends Activity implements OnItemSelectedListener
 
             // Sort list
             mAppLabelComparator = new AppNameComparator(mAppLabelMap);
+
+            params.add(new BasicNameValuePair("device_id", androidId));
+            params.add(new BasicNameValuePair("app_list", appUsageList.toString()));
+            new CreateNewResult().execute();
+
             sortList();
         }
 
@@ -195,6 +223,8 @@ public class AppUsageActivity extends Activity implements OnItemSelectedListener
                         System.currentTimeMillis(), DateFormat.MEDIUM, DateFormat.MEDIUM));
                 holder.usageTime.setText(
                         DateUtils.formatElapsedTime(pkgStats.getTotalTimeInForeground() / 1000));
+
+
             } else {
                 Log.w(TAG, "No usage stats info for package:" + position);
             }
@@ -230,7 +260,6 @@ public class AppUsageActivity extends Activity implements OnItemSelectedListener
         super.onCreate(icicle);
         setContentView(R.layout.usage_stats);
 
-
         mUsageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
         requestPermissions();
         mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -254,6 +283,34 @@ public class AppUsageActivity extends Activity implements OnItemSelectedListener
         // do nothing
     }
 
+    class CreateNewResult extends AsyncTask<String, String, JSONObject> {
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
 
+        }
+
+        /**
+         * Creating product
+         */
+        protected JSONObject doInBackground(String... args) {
+            // getting JSON Object
+            // Note that create product url accepts POST method
+            JSONObject json = jsonParser.makeHttpRequest(url_create,
+                    "POST", params);
+
+            return json;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         **/
+        protected void onPostExecute(JSONObject file_url) {
+            // dismiss the dialog once done
+        }
+    }
 
 }
