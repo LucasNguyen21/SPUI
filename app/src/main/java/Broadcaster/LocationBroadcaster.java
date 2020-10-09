@@ -69,7 +69,7 @@ public class LocationBroadcaster extends BroadcastReceiver {
                         params.add(new BasicNameValuePair("latitude", Double.toString(addresses.get(0).getLatitude())));
                         params.add(new BasicNameValuePair("longitude", Double.toString(addresses.get(0).getLongitude())));
                         params.add(new BasicNameValuePair("address", addresses.get(0).getAddressLine(0)));
-                        new LocationBroadcaster.CreateNewResult().execute();
+                        new CreateNewResult().execute();
 
                     } catch (IOException e) {
                         e.printStackTrace();

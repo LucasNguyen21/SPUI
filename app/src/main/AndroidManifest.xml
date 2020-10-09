@@ -86,6 +86,9 @@
         <receiver android:name="Broadcaster.LocationBroadcaster">
         </receiver>
 
+        <receiver android:name="Broadcaster.AppUsageBroadcaster">
+        </receiver>
+
         <receiver android:name="Broadcaster.OnBootBroadcaster">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

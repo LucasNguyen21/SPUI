@@ -3,13 +3,17 @@ package com.federation.funf_test;
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,7 +26,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
+import java.util.List;
 
+import Broadcaster.AppUsageBroadcaster;
 import Broadcaster.LocationBroadcaster;
 import Broadcaster.NotificationBroadcaster;
 import Broadcaster.BatteryBroadcaster;
@@ -31,6 +37,9 @@ import Broadcaster.OnBootBroadcaster;
 
 public class MainActivity extends AppCompatActivity {
     NotificationHelper notificationHelper;
+    private UsageStatsManager mUsageStatsManager;
+    private LayoutInflater mInflater;
+    private PackageManager mPm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         notificationHelper = new NotificationHelper(this);
-
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED
                 && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -70,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
         setLocationBackground();
 
+        getAppUsageBackground();
+
             // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -89,6 +98,19 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }
+
+        mUsageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
+
+        Calendar cal = Calendar.getInstance();
+
+        final List<UsageStats> queryUsageStats=mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_YEARLY, cal.getTimeInMillis(), System.currentTimeMillis());
+
+        boolean isEmpty = queryUsageStats.isEmpty();
+        if (isEmpty) {
+            startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
+        }
+
+        mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private void setQuestionNotification(){
@@ -132,6 +154,21 @@ public class MainActivity extends AppCompatActivity {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, LocationBroadcaster.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 5 * 1000, pendingIntent);
+    }
+
+    private void getAppUsageBackground(){
+        Calendar calendar = Calendar.getInstance();
+        int hour = Calendar.getInstance().get(Calendar.HOUR);
+        int minute = Calendar.getInstance().get(Calendar.MINUTE);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AppUsageBroadcaster.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 5 * 1000, pendingIntent);
