@@ -122,9 +122,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
-
-
         mUsageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
 
         Calendar cal = Calendar.getInstance();
@@ -161,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
     BatteryBroadcaster batteryBroadcaster = new BatteryBroadcaster();
     private void setBatteryNotification(){
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        intentFilter.addAction(Intent.ACTION_POWER_CONNECTED);
         registerReceiver(batteryBroadcaster, intentFilter);
     }
 
@@ -179,8 +178,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //unregisterReceiver(batteryBroadcaster);
-
     }
 
     private void setLocationBackground(){
