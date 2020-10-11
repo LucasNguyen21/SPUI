@@ -70,6 +70,18 @@ public class MainActivity extends AppCompatActivity {
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 1000);
+        } else {
+            setQuestionNotification();
+
+            setBatteryNotification();
+
+            setLocationBackground();
+
+            setCallBroadcast();
+
+            setSmsBroadcast();
+
+            getAppUsageBackground();
         }
 
 
