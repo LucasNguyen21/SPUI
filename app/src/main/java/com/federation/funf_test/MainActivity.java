@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        Intent sensorIntent = new Intent(this, SensorService.class);
-        startService(sensorIntent);
+//        Intent sensorIntent = new Intent(this, SensorService.class);
+//        startService(sensorIntent);
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

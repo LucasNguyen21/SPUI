@@ -36,10 +36,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <service
-            android:name="Broadcaster.SensorService"
-            android:enabled="true"
-            android:exported="true"></service>
+
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -73,6 +70,10 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+        <service
+            android:name="Broadcaster.SensorService"
+            android:enabled="true"
+            android:exported="true"></service>
 
         <receiver android:name="Broadcaster.BatteryBroadcaster">
             <intent-filter>
@@ -82,15 +83,12 @@
                 <action android:name="android.intent.action.BATTERY_OKAY" />
             </intent-filter>
         </receiver>
+
         <receiver android:name="Broadcaster.LocationBroadcaster"></receiver>
         <receiver android:name="Broadcaster.AppUsageBroadcaster"></receiver>
-        <receiver android:name="Broadcaster.OnBootBroadcaster">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
+
         <receiver android:name="Broadcaster.NotificationBroadcaster" />
+
         <receiver android:name=".SMSActivity.SmsIntentService">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
@@ -99,6 +97,12 @@
         <receiver android:name=".LocationActivity.LocationIntentService">
             <intent-filter>
                 <action android:name="android.location.PROVIDERS_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".CallActivity.CallIntentService">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"/>
             </intent-filter>
         </receiver>
     </application>
