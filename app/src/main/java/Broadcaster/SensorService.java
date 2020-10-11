@@ -147,6 +147,7 @@ public class SensorService extends Service implements SensorEventListener {
             JSONObject json = jsonParser.makeHttpRequest(url_create,
                     "POST", params);
             // check log cat fro response
+            Log.d("Debug", json.toString());
 
             return json;
         }

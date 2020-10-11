@@ -22,6 +22,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.federation.funf_test.CallActivity.CallIntentService;
+import com.federation.funf_test.SMSActivity.SmsIntentService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -71,9 +73,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-            // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                  R.id.navigation_test, R.id.navigation_datacollection)
                 .build();
@@ -89,6 +88,22 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1000 && grantResults.length != 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission granted!", Toast.LENGTH_SHORT).show();
+
+                //Set notification for keystroke tracking
+                setQuestionNotification();
+
+                //Set background running for battery log
+                setBatteryNotification();
+
+                setLocationBackground();
+
+                setCallBroadcast();
+
+                setSmsBroadcast();
+
+                getAppUsageBackground();
+
+
             } else {
                 Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show();
                 finish();
@@ -96,15 +111,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        //Set notification for keystroke tracking
-        setQuestionNotification();
 
-        //Set background running for battery log
-        setBatteryNotification();
-
-        setLocationBackground();
-
-        getAppUsageBackground();
 
         mUsageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
 
@@ -145,10 +152,23 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(batteryBroadcaster, intentFilter);
     }
 
+    CallIntentService callIntentService = new CallIntentService();
+    private void setCallBroadcast(){
+        IntentFilter intentFilter = new IntentFilter("android.intent.action.PHONE_STATE");
+        registerReceiver(callIntentService, intentFilter);
+    }
+
+    SmsIntentService smsIntentService = new SmsIntentService();
+    private void setSmsBroadcast(){
+        IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+        registerReceiver(smsIntentService, intentFilter);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(batteryBroadcaster);
+        //unregisterReceiver(batteryBroadcaster);
+
     }
 
     private void setLocationBackground(){
