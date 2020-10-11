@@ -70,15 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 1000);
         }
 
-        //Set notification for keystroke tracking
-        setQuestionNotification();
 
-        //Set background running for battery log
-        setBatteryNotification();
-
-        setLocationBackground();
-
-        getAppUsageBackground();
 
             // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -94,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 1000) {
+        if (requestCode == 1000 && grantResults.length != 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission granted!", Toast.LENGTH_SHORT).show();
             } else {
@@ -102,6 +94,17 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }
+
+
+        //Set notification for keystroke tracking
+        setQuestionNotification();
+
+        //Set background running for battery log
+        setBatteryNotification();
+
+        setLocationBackground();
+
+        getAppUsageBackground();
 
         mUsageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
 
