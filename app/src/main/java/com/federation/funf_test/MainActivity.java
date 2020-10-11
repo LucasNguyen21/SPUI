@@ -82,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
             setSmsBroadcast();
 
             getAppUsageBackground();
+
+            Intent sensorIntent = new Intent(this, SensorService.class);
+            startService(sensorIntent);
         }
 
 
@@ -91,9 +94,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
-//        Intent sensorIntent = new Intent(this, SensorService.class);
-//        startService(sensorIntent);
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 setSmsBroadcast();
 
                 getAppUsageBackground();
-
 
             } else {
                 Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show();
