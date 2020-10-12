@@ -66,6 +66,12 @@ public class SensorService extends Service implements SensorEventListener {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
             NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            chan.enableLights(true);
+            chan.enableVibration(true);
+            chan.setLightColor(R.color.colorPrimary);
+            chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+
             manager.createNotificationChannel(chan);
         }
 
@@ -112,7 +118,7 @@ public class SensorService extends Service implements SensorEventListener {
             shakeInitiated = false;
         }
 
-        if (sensorList.size() == 100) {
+        if (sensorList.size() == 1000) {
             Log.d("Sensor List", sensorList.toString());
             String androidId = Settings.Secure.getString(getContentResolver(),
                     Settings.Secure.ANDROID_ID);
