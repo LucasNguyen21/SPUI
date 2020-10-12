@@ -61,6 +61,7 @@ public class AppUsageBroadcaster extends BroadcastReceiver {
 
                 appObject.put("device_id", androidId);
                 appObject.put("app_name", label);
+                //appObject.put("first_used", pkgStats.getFirstTimeStamp());
                 appObject.put("last_used", pkgStats.getLastTimeUsed());
                 appObject.put("usage_time", pkgStats.getTotalTimeInForeground());
 

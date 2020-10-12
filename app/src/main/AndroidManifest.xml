@@ -99,7 +99,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".CallActivity.CallIntentService">
+        <receiver android:name=".CallActivity.CallBroadcaster">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE"/>
             </intent-filter>

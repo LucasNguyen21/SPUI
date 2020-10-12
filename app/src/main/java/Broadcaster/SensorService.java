@@ -1,6 +1,9 @@
 package Broadcaster;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -14,7 +17,11 @@ import android.hardware.SensorEventListener;
 import android.provider.Settings;
 import android.util.Log;
 
+import androidx.core.app.NotificationCompat;
+
 import com.federation.funf_test.JSONParser;
+import com.federation.funf_test.MainActivity;
+import com.federation.funf_test.R;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
@@ -23,6 +30,8 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import static Broadcaster.NotificationHelper.channelName;
 
 public class SensorService extends Service implements SensorEventListener {
     ArrayList<JSONObject> sensorList;
@@ -51,6 +60,27 @@ public class SensorService extends Service implements SensorEventListener {
         accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sm.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         sensorList = new ArrayList();
+
+        String NOTIFICATION_CHANNEL_ID = "com.example.spui";
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.createNotificationChannel(chan);
+        }
+
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                notificationIntent, 0);
+
+        Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("SPUI App")
+                .setContentText("Sensor runing...")
+                .setContentIntent(pendingIntent).build();
+
+        startForeground(1, notification);
     }
 
     @Override
@@ -68,6 +98,7 @@ public class SensorService extends Service implements SensorEventListener {
             sensor.put("x", event.values[0]);
             sensor.put("y", event.values[1]);
             sensor.put("z", event.values[2]);
+            sensor.put("synced_time", System.currentTimeMillis());
             sensorList.add(sensor);
         } catch (JSONException e) {
             e.printStackTrace();

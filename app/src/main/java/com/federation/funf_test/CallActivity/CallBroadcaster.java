@@ -25,7 +25,7 @@ import java.util.List;
 import me.everything.providers.android.telephony.Sms;
 import me.everything.providers.android.telephony.TelephonyProvider;
 
-public class CallIntentService extends BroadcastReceiver {
+public class CallBroadcaster extends BroadcastReceiver {
 
     ArrayList params = new ArrayList();
     ArrayList<JSONObject> callLogArrayList= new ArrayList<>();

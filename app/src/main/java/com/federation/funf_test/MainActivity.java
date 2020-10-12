@@ -2,6 +2,7 @@ package com.federation.funf_test;
 
 import android.Manifest;
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
@@ -11,18 +12,20 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.federation.funf_test.CallActivity.CallIntentService;
+import com.federation.funf_test.CallActivity.CallBroadcaster;
 import com.federation.funf_test.SMSActivity.SmsIntentService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
     private UsageStatsManager mUsageStatsManager;
     private LayoutInflater mInflater;
     private PackageManager mPm;
+    Intent sensorIntent;
+    PowerManager powerManager;
+    PowerManager.WakeLock wakeLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         notificationHelper = new NotificationHelper(this);
+        sensorIntent = new Intent(this, SensorService.class);
+
+        powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                "MyApp::MyWakelockTag");
+        wakeLock.acquire();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED
                 && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -83,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
             getAppUsageBackground();
 
-            Intent sensorIntent = new Intent(this, SensorService.class);
             startService(sensorIntent);
         }
 
@@ -114,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
                 setSmsBroadcast();
 
                 getAppUsageBackground();
+
+                startService(sensorIntent);
 
             } else {
                 Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show();
@@ -162,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(batteryBroadcaster, intentFilter);
     }
 
-    CallIntentService callIntentService = new CallIntentService();
+    CallBroadcaster callIntentService = new CallBroadcaster();
     private void setCallBroadcast(){
         IntentFilter intentFilter = new IntentFilter("android.intent.action.PHONE_STATE");
         registerReceiver(callIntentService, intentFilter);
