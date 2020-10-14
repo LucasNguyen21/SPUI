@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import com.federation.funf_test.JSONParser;
 import com.federation.funf_test.MainActivity;
 import com.federation.funf_test.R;
+import com.federation.funf_test.stroop.StroopResultActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.apache.http.message.BasicNameValuePair;
@@ -148,11 +149,11 @@ public class KeystrokeLoggerActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            builderDialog.setTitle("Uploading...");
-            builderDialog.setMessage("Uploading data to server");
-            builderDialog.setCancelable(true);
-            builderDialog.show();
+            pDialog = new ProgressDialog(KeystrokeLoggerActivity.this);
+            pDialog.setMessage("Uploading Result..");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
         }
 
         /**
@@ -172,8 +173,7 @@ public class KeystrokeLoggerActivity extends Activity {
          **/
         protected void onPostExecute(JSONObject file_url) {
             // dismiss the dialog once done
-            AlertDialog alertDialog = builderDialog.create();
-            alertDialog.dismiss();
+            pDialog.dismiss();
             Intent toMainActivityIntent = new Intent(KeystrokeLoggerActivity.this, MainActivity.class);
             startActivity(toMainActivityIntent);
         }
