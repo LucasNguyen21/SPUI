@@ -91,8 +91,7 @@ public class GoNogoResultActivity extends Activity {
             public void onClick(View v) {
             new CreateNewResult().execute();
 
-            Intent toHomeIntent = new Intent(GoNogoResultActivity.this, MainActivity.class);
-            startActivity(toHomeIntent);
+
             }
         });
     }
@@ -108,7 +107,7 @@ public class GoNogoResultActivity extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(GoNogoResultActivity.this);
-            pDialog.setMessage("Creating Product..");
+            pDialog.setMessage("Uploading result to server...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -159,6 +158,8 @@ public class GoNogoResultActivity extends Activity {
         protected void onPostExecute(JSONObject file_url) {
             // dismiss the dialog once done
             pDialog.dismiss();
+            Intent toHomeIntent = new Intent(GoNogoResultActivity.this, MainActivity.class);
+            startActivity(toHomeIntent);
         }
     }
 }

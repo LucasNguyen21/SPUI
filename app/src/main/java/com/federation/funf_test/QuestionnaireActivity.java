@@ -1,6 +1,7 @@
 package com.federation.funf_test;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -93,8 +94,7 @@ public class QuestionnaireActivity extends Activity {
                     params.add(new BasicNameValuePair("answer_list", answer_list.toString()));
                     new CreateNewResult().execute();
 
-                    Intent toKeystrokeLoggerIntent = new Intent(QuestionnaireActivity.this, KeystrokeLoggerActivity.class);
-                    startActivity(toKeystrokeLoggerIntent);
+
                 } else {
                     Toast.makeText(getApplicationContext(), "You need to answer all question", Toast.LENGTH_SHORT).show();
                 }
@@ -130,10 +130,15 @@ public class QuestionnaireActivity extends Activity {
         /**
          * Before starting background thread Show Progress Dialog
          */
+        AlertDialog.Builder builderDialog = new AlertDialog.Builder(QuestionnaireActivity.this);
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
+            builderDialog.setTitle("Uploading...");
+            builderDialog.setMessage("Uploading result to server");
+            builderDialog.setCancelable(true);
+            builderDialog.show();
         }
 
         /**
@@ -155,6 +160,11 @@ public class QuestionnaireActivity extends Activity {
          **/
         protected void onPostExecute(JSONObject file_url) {
             // dismiss the dialog once done
+            // dismiss the dialog once done
+            AlertDialog alertDialog = builderDialog.create();
+            alertDialog.dismiss();
+            Intent toKeystrokeLoggerIntent = new Intent(QuestionnaireActivity.this, KeystrokeLoggerActivity.class);
+            startActivity(toKeystrokeLoggerIntent);
         }
     }
 }

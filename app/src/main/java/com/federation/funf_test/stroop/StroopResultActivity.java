@@ -97,8 +97,7 @@ public class StroopResultActivity extends Activity {
             @Override
             public void onClick(View v) {
             new CreateNewResult().execute();
-            Intent toHomeIntent = new Intent(StroopResultActivity.this, MainActivity.class);
-            startActivity(toHomeIntent);
+
             }
         });
     }
@@ -196,6 +195,8 @@ public class StroopResultActivity extends Activity {
         protected void onPostExecute(JSONObject file_url) {
             // dismiss the dialog once done
             pDialog.dismiss();
+            Intent toHomeIntent = new Intent(StroopResultActivity.this, MainActivity.class);
+            startActivity(toHomeIntent);
         }
     }
 }

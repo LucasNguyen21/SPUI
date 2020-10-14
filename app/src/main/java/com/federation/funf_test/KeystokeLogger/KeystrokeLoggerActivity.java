@@ -1,7 +1,9 @@
 package com.federation.funf_test.KeystokeLogger;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -77,8 +79,7 @@ public class KeystrokeLoggerActivity extends Activity {
                 new CreateNewResult().execute();
 
                 //Navigate to main view after finish saving
-                Intent toMainActivityIntent = new Intent(KeystrokeLoggerActivity.this, MainActivity.class);
-                startActivity(toMainActivityIntent);
+
             }
         });
 
@@ -142,10 +143,16 @@ public class KeystrokeLoggerActivity extends Activity {
         /**
          * Before starting background thread Show Progress Dialog
          */
+        AlertDialog.Builder builderDialog = new AlertDialog.Builder(KeystrokeLoggerActivity.this);
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
+            builderDialog.setTitle("Uploading...");
+            builderDialog.setMessage("Uploading data to server");
+            builderDialog.setCancelable(true);
+            builderDialog.show();
         }
 
         /**
@@ -165,6 +172,10 @@ public class KeystrokeLoggerActivity extends Activity {
          **/
         protected void onPostExecute(JSONObject file_url) {
             // dismiss the dialog once done
+            AlertDialog alertDialog = builderDialog.create();
+            alertDialog.dismiss();
+            Intent toMainActivityIntent = new Intent(KeystrokeLoggerActivity.this, MainActivity.class);
+            startActivity(toMainActivityIntent);
         }
     }
 }

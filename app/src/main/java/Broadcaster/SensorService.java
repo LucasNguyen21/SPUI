@@ -82,8 +82,8 @@ public class SensorService extends Service implements SensorEventListener {
 
         Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("SPUI App")
-                .setContentText("Sensor runing...")
+                .setContentTitle("SPUI")
+                .setContentText("Collecting Data In Background...")
                 .setContentIntent(pendingIntent).build();
 
         startForeground(1, notification);
