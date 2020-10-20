@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 && checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED
                 && checkSelfPermission(Manifest.permission.BROADCAST_SMS) != PackageManager.PERMISSION_GRANTED
                 && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(Manifest.permission.BATTERY_STATS) != PackageManager.PERMISSION_GRANTED
                 && checkSelfPermission(Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED
                 && checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.RECEIVE_SMS,
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     Manifest.permission.READ_PHONE_STATE,
                     Manifest.permission.BROADCAST_SMS,
                     Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.BATTERY_STATS,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 1000);
         } else {

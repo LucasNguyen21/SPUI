@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.provider.Settings;
 import com.federation.funf_test.JSONParser;
 
@@ -61,9 +62,17 @@ public class AppUsageBroadcaster extends BroadcastReceiver {
 
                 appObject.put("device_id", androidId);
                 appObject.put("app_name", label);
-                //appObject.put("first_used", pkgStats.getFirstTimeStamp());
                 appObject.put("last_used", pkgStats.getLastTimeUsed());
                 appObject.put("usage_time", pkgStats.getTotalTimeInForeground());
+                appObject.put("first_time_stamp", pkgStats.getFirstTimeStamp());
+                appObject.put("last_time_stamp", pkgStats.getLastTimeStamp());
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    appObject.put("last_time_foreground_used", pkgStats.getLastTimeForegroundServiceUsed());
+                    appObject.put("total_time_foreground_used", pkgStats.getTotalTimeForegroundServiceUsed());
+                    appObject.put("last_time_visible", pkgStats.getLastTimeVisible());
+                    appObject.put("total_time_visible", pkgStats.getTotalTimeVisible());
+                }
 
                 appUsageList.add(appObject);
 
